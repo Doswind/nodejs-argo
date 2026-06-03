@@ -1,966 +1,1204 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeFlow | Visual Development Platform</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>African Wildlife Conservation | Protect Our Heritage</title>
     <style>
+        /* CSS Reset & Variables */
+        :root {
+            --primary-green: #2d6a4f;
+            --light-green: #40916c;
+            --earth-brown: #9c6644;
+            --light-earth: #ddb892;
+            --bg-color: #fefae0;
+            --text-dark: #1b263b;
+            --text-light: #ffffff;
+            --overlay: rgba(27, 38, 59, 0.6);
+            --danger: #e63946;
+            --warning: #f4a261;
+            --success: #2a9d8f;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
-        
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
             line-height: 1.6;
-            color: #333;
-            background-color: #f9fbfd;
         }
-        
-        h1, h2, h3, h4 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            line-height: 1.3;
+
+        /* Typography */
+        h1, h2, h3 {
+            font-weight: 700;
+            margin-bottom: 1rem;
         }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            color: var(--primary-green);
+            margin-bottom: 3rem;
         }
-        
-        /* Header & Navigation */
-        header {
-            background-color: #fff;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
+
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
         }
-        
+
+        .section-padding {
+            padding: 5rem 10%;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            max-width: 700px;
+            margin: -2rem auto 3rem;
+            font-size: 1.15rem;
+        }
+
+        /* Navigation */
         nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(254, 250, 224, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
+            padding: 1rem 10%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
-        
+
         .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-green);
+            text-decoration: none;
             display: flex;
             align-items: center;
+            gap: 10px;
         }
-        
-        .logo-icon {
-            color: #4361ee;
-            font-size: 28px;
-            margin-right: 10px;
-        }
-        
-        .logo-text {
-            font-family: 'Poppins', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            color: #333;
-        }
-        
-        .logo-text span {
-            color: #4361ee;
-        }
-        
+
         .nav-links {
             display: flex;
             list-style: none;
+            gap: 2rem;
         }
-        
-        .nav-links li {
-            margin-left: 30px;
-        }
-        
+
         .nav-links a {
             text-decoration: none;
-            color: #555;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            color: #4361ee;
-        }
-        
-        .cta-button {
-            background-color: #4361ee;
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 6px;
+            color: var(--text-dark);
             font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
+            transition: color 0.3s ease;
         }
-        
-        .cta-button:hover {
-            background-color: #3a56d4;
-            transform: translateY(-2px);
+
+        .nav-links a:hover {
+            color: var(--primary-green);
         }
-        
-        .mobile-menu-btn {
+
+        /* Hamburger Menu */
+        .hamburger {
             display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
             background: none;
             border: none;
-            font-size: 24px;
-            color: #333;
-            cursor: pointer;
+            padding: 5px;
         }
-        
+
+        .hamburger span {
+            width: 28px;
+            height: 3px;
+            background-color: var(--text-dark);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+
         /* Hero Section */
         .hero {
-            padding: 150px 0 100px;
-            background: linear-gradient(135deg, #f0f4ff 0%, #f9fbfd 100%);
-        }
-        
-        .hero-content {
+            height: 100vh;
+            background: linear-gradient(var(--overlay), var(--overlay)),
+                        url('https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat fixed;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-light);
+            padding: 0 20px;
         }
-        
-        .hero-text {
-            flex: 1;
-            padding-right: 40px;
+
+        .hero-content {
+            max-width: 800px;
+            margin-top: 60px;
         }
-        
-        .hero-text h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            color: #222;
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
-        
-        .hero-text h1 span {
-            color: #4361ee;
+
+        .hero .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+            opacity: 0.85;
         }
-        
-        .hero-text p {
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 30px;
-            max-width: 600px;
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
         }
-        
+
         .hero-buttons {
             display: flex;
-            gap: 15px;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
         }
-        
-        .secondary-button {
-            background-color: white;
-            color: #4361ee;
-            border: 2px solid #4361ee;
-            padding: 12px 28px;
-            border-radius: 6px;
-            font-weight: 600;
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background-color: var(--primary-green);
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
             cursor: pointer;
-            transition: all 0.3s;
         }
-        
-        .secondary-button:hover {
-            background-color: #f0f4ff;
+
+        .btn:hover {
+            background-color: var(--light-green);
+            transform: translateY(-3px);
         }
-        
-        .hero-image {
-            flex: 1;
-            text-align: center;
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--text-light);
+            color: var(--text-light);
         }
-        
-        .hero-image img {
-            max-width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 20px 40px rgba(67, 97, 238, 0.15);
+
+        .btn-outline:hover {
+            background-color: var(--text-light);
+            color: var(--text-dark);
         }
-        
-        /* Features Section */
-        .section-title {
-            text-align: center;
-            margin-bottom: 60px;
+
+        .btn-small {
+            padding: 0.5rem 1.5rem;
+            font-size: 1rem;
         }
-        
-        .section-title h2 {
-            font-size: 36px;
-            color: #222;
-            margin-bottom: 15px;
+
+        /* Impact / Stats Section */
+        #impact {
+            background-color: var(--primary-green);
+            color: var(--text-light);
+            padding: 4rem 10%;
         }
-        
-        .section-title p {
-            color: #666;
-            max-width: 700px;
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
             margin: 0 auto;
+            text-align: center;
         }
-        
-        .features {
-            padding: 100px 0;
-            background-color: white;
+
+        .stat-item h3 {
+            font-size: 3.5rem;
+            color: var(--light-earth);
+            margin-bottom: 0.3rem;
         }
-        
-        .features-grid {
+
+        .stat-item p {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+
+        /* About Section */
+        #about {
+            background-color: #fff;
+        }
+
+        .about-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            color: #444;
+        }
+
+        .about-text h2 {
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .about-img {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .about-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .about-facts {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .fact-item {
+            padding: 1rem;
+            background: var(--bg-color);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-green);
+        }
+
+        .fact-item strong {
+            display: block;
+            color: var(--primary-green);
+            font-size: 1rem;
+        }
+
+        .fact-item span {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Species Section (Grid) */
+        #species {
+            background-color: var(--bg-color);
+        }
+
+        .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-        
-        .feature-card {
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .feature-icon {
-            background-color: #eef2ff;
-            color: #4361ee;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            font-size: 28px;
-        }
-        
-        .feature-card h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
-        }
-        
-        .feature-card p {
-            color: #666;
-        }
-        
-        /* Benefits Section */
-        .benefits {
-            padding: 100px 0;
-            background-color: #f0f4ff;
-        }
-        
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-        
-        .benefit-item {
-            text-align: center;
-            padding: 30px 20px;
-        }
-        
-        .benefit-icon {
-            color: #4361ee;
-            font-size: 40px;
-            margin-bottom: 20px;
-        }
-        
-        .benefit-item h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
-        }
-        
-        .benefit-item p {
-            color: #666;
-        }
-        
-        /* Testimonials */
-        .testimonials {
-            padding: 100px 0;
-            background-color: white;
-        }
-        
-        .testimonial-slider {
-            max-width: 800px;
+            gap: 2rem;
+            max-width: 1400px;
             margin: 0 auto;
-            position: relative;
         }
-        
-        .testimonial {
-            background: #f9fbfd;
-            padding: 40px;
+
+        .card {
+            background: #fff;
             border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
         }
-        
-        .testimonial-text {
-            font-size: 18px;
-            font-style: italic;
-            margin-bottom: 30px;
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.05);
+        }
+
+        .species-status {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-vulnerable {
+            background-color: var(--warning);
+            color: #fff;
+        }
+
+        .status-endangered {
+            background-color: var(--danger);
+            color: #fff;
+        }
+
+        .status-critically-endangered {
+            background-color: #9d0208;
+            color: #fff;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-content h3 {
+            color: var(--earth-brown);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-content .species-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .species-meta span {
+            font-size: 0.85rem;
+            color: #888;
+            background: #f5f5f5;
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+
+        .card-content p {
+            font-size: 0.95rem;
             color: #555;
         }
-        
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
+        /* Threats Section */
+        #threats {
+            background-color: var(--text-dark);
+            color: var(--text-light);
         }
-        
-        .author-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: #ddd;
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #4361ee;
-            font-size: 24px;
+
+        #threats h2 {
+            color: var(--light-earth);
         }
-        
-        .author-info h4 {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-        
-        .author-info p {
-            color: #777;
-            font-size: 14px;
-        }
-        
-        /* Pricing Section */
-        .pricing {
-            padding: 100px 0;
-            background-color: #f9fbfd;
-        }
-        
-        .pricing-grid {
+
+        .threats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        
-        .pricing-card {
-            background: white;
+
+        .threat-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
-            padding: 40px 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid var(--primary-green);
+        }
+
+        .threat-item h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--light-earth);
+        }
+
+        .threat-item p {
+            font-size: 1rem;
+            color: #bbb;
+        }
+
+        /* How to Help Section */
+        #help {
+            background-color: #fff;
+        }
+
+        .help-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .step {
             text-align: center;
-            transition: transform 0.3s;
+            padding: 2rem;
+            border: 1px solid var(--light-earth);
+            border-radius: 10px;
+            background-color: var(--bg-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
-        .pricing-card.featured {
-            border-top: 5px solid #4361ee;
-            transform: scale(1.05);
-            position: relative;
+
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
-        
-        .featured-badge {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #4361ee;
-            color: white;
-            padding: 5px 20px;
-            border-radius: 20px;
-            font-size: 14px;
+
+        .step-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .step h3 {
+            color: var(--primary-green);
+        }
+
+        /* Latest Updates / News */
+        #news {
+            background-color: var(--bg-color);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .news-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-card-body {
+            padding: 1.5rem;
+        }
+
+        .news-card-date {
+            font-size: 0.8rem;
+            color: var(--primary-green);
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
         }
-        
-        .pricing-card:hover {
-            transform: translateY(-10px);
+
+        .news-card-body h3 {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
         }
-        
-        .pricing-card.featured:hover {
-            transform: scale(1.05) translateY(-10px);
+
+        .news-card-body p {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 1rem;
         }
-        
-        .plan-name {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #333;
+
+        .news-link {
+            color: var(--primary-green);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
         }
-        
-        .plan-price {
-            font-size: 48px;
-            font-weight: 700;
-            color: #4361ee;
-            margin-bottom: 20px;
+
+        .news-link:hover {
+            color: var(--light-green);
         }
-        
-        .plan-price span {
-            font-size: 16px;
-            color: #777;
+
+        .news-link::after {
+            content: ' \2192';
         }
-        
-        .plan-features {
-            list-style: none;
-            margin-bottom: 30px;
-        }
-        
-        .plan-features li {
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-            color: #555;
-        }
-        
-        .plan-features li:last-child {
-            border-bottom: none;
-        }
-        
-        /* CTA Section */
-        .cta-section {
-            padding: 100px 0;
-            background: linear-gradient(135deg, #4361ee 0%, #3a56d4 100%);
+
+        /* Testimonial / Quote */
+        #testimonial {
+            background: linear-gradient(135deg, var(--primary-green), #1b4332);
+            color: var(--text-light);
+            padding: 5rem 10%;
             text-align: center;
-            color: white;
         }
-        
-        .cta-section h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
+
+        .quote-mark {
+            font-size: 5rem;
+            line-height: 1;
+            color: var(--light-earth);
+            opacity: 0.6;
+            margin-bottom: -1.5rem;
         }
-        
-        .cta-section p {
-            font-size: 18px;
-            max-width: 700px;
-            margin: 0 auto 30px;
-            opacity: 0.9;
+
+        .quote-text {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            font-size: 1.6rem;
+            font-style: italic;
+            line-height: 1.7;
+            font-weight: 300;
         }
-        
-        .cta-section .cta-button {
-            background-color: white;
-            color: #4361ee;
-            font-size: 16px;
-            padding: 15px 40px;
+
+        .quote-author {
+            font-size: 1.1rem;
+            opacity: 0.85;
         }
-        
-        .cta-section .cta-button:hover {
-            background-color: #f0f4ff;
+
+        .quote-author strong {
+            display: block;
+            font-style: normal;
+            font-size: 1.2rem;
         }
-        
+
+        /* Partners & Links Section */
+        #partners {
+            background-color: #fff;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .partner-card {
+            background: var(--bg-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-dark);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: block;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .partner-card .partner-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .partner-card h3 {
+            font-size: 1.1rem;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .partner-card p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0;
+        }
+
         /* Footer */
         footer {
-            background-color: #222;
-            color: #ccc;
-            padding: 70px 0 20px;
+            background-color: #0b131c;
+            color: #888;
+            padding: 4rem 10% 2rem;
         }
-        
-        .footer-content {
+
+        .footer-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-            margin-bottom: 50px;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
         }
-        
-        .footer-column h3 {
-            font-size: 20px;
-            color: white;
-            margin-bottom: 25px;
+
+        .footer-about h3 {
+            color: var(--light-earth);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
         }
-        
-        .footer-links {
+
+        .footer-about p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .footer-col h4 {
+            color: var(--light-earth);
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .footer-col ul {
             list-style: none;
         }
-        
-        .footer-links li {
-            margin-bottom: 12px;
+
+        .footer-col ul li {
+            margin-bottom: 0.6rem;
         }
-        
-        .footer-links a {
-            color: #aaa;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: #4361ee;
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #444;
-            font-size: 14px;
+
+        .footer-col ul li a {
             color: #888;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
         }
-        
+
+        .footer-col ul li a:hover {
+            color: var(--light-earth);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            font-size: 0.85rem;
+            margin-bottom: 0;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .footer-social a {
+            color: #888;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.2s;
+        }
+
+        .footer-social a:hover {
+            color: var(--light-earth);
+        }
+
         /* Responsive Design */
-        @media (max-width: 992px) {
-            .hero-content {
-                flex-direction: column;
-            }
-            
-            .hero-text {
-                padding-right: 0;
-                margin-bottom: 50px;
-                text-align: center;
-            }
-            
-            .hero-text p {
-                margin: 0 auto 30px;
-            }
-            
-            .pricing-card.featured {
-                transform: none;
-            }
-            
-            .pricing-card.featured:hover {
-                transform: translateY(-10px);
-            }
-        }
-        
         @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
             .nav-links {
                 display: none;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .hero-text h1 {
-                font-size: 36px;
-            }
-            
-            .section-title h2 {
-                font-size: 30px;
-            }
-            
-            .hero-buttons {
                 flex-direction: column;
-                align-items: center;
-            }
-            
-            .hero-buttons button {
                 width: 100%;
-                max-width: 300px;
+                margin-top: 1rem;
+                gap: 0.5rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .section-padding {
+                padding: 3rem 5%;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-layout {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .about-text h2 {
+                text-align: center;
+            }
+
+            .about-facts {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            h2 {
+                font-size: 2rem;
             }
         }
-        
-        @media (max-width: 576px) {
-            .hero {
-                padding: 130px 0 80px;
-            }
-            
-            .features, .benefits, .testimonials, .pricing, .cta-section {
-                padding: 70px 0;
-            }
-            
-            .feature-card, .testimonial {
-                padding: 25px;
-            }
-            
-            .plan-price {
-                font-size: 36px;
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header & Navigation -->
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">
-                    <div class="logo-icon"><i class="fas fa-bezier-curve"></i></div>
-                    <div class="logo-text">Code<span>Flow</span></div>
-                </div>
-                
-                <ul class="nav-links">
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#benefits">Benefits</a></li>
-                    <li><a href="#testimonials">Testimonials</a></li>
-                    <li><a href="#pricing">Pricing</a></li>
-                    <li><a href="#">Resources</a></li>
-                </ul>
-                
-                <button class="cta-button">Start Free Trial</button>
-                <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
-            </nav>
+
+    <nav>
+        <div class="nav-container">
+            <a href="#home" class="logo">&#127757; AfricaWild</a>
+            <button class="hamburger" aria-label="Toggle navigation" onclick="document.querySelector('.nav-links').classList.toggle('active'); this.classList.toggle('active');">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#species">Species</a></li>
+                <li><a href="#threats">Threats</a></li>
+                <li><a href="#help">How to Help</a></li>
+                <li><a href="#news">Updates</a></li>
+                <li><a href="#partners">Partners</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </div>
-    </header>
+    </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Build Apps Faster With <span>Visual Development</span></h1>
-                    <p>CodeFlow empowers teams to create enterprise-grade applications with minimal coding. Drag, drop, and connect components to build powerful web and mobile apps in record time.</p>
-                    <div class="hero-buttons">
-                        <button class="cta-button">Start Building Free</button>
-                        <button class="secondary-button">Watch Demo</button>
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <p class="hero-subtitle">Africa's Voice for Wildlife Since 2005</p>
+            <h1>Protect Africa's Wildlife</h1>
+            <p>Their future is in our hands. Join the movement to save endangered species and preserve the majestic natural habitats of the African continent.</p>
+            <div class="hero-buttons">
+                <a href="#help" class="btn">Take Action Now</a>
+                <a href="#about" class="btn btn-outline">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Stats -->
+    <section id="impact">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>416,000+</h3>
+                <p>African elephants remaining in the wild</p>
+            </div>
+            <div class="stat-item">
+                <h3>23,000</h3>
+                <p>Lions left across the continent</p>
+            </div>
+            <div class="stat-item">
+                <h3>6,500</h3>
+                <p>Cheetahs surviving in the wild</p>
+            </div>
+            <div class="stat-item">
+                <h3>27,000</h3>
+                <p>Rhinos remaining in Africa</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section-padding">
+        <div class="about-layout">
+            <div class="about-text">
+                <h2>A Heritage Under Siege</h2>
+                <p>Africa is home to some of the most iconic and diverse wildlife on the planet. From the vast savannas of the Serengeti to the dense rainforests of the Congo Basin, these ecosystems rely on a delicate balance maintained by their native species.</p>
+                <p>However, an unprecedented crisis is unfolding. Over the last 50 years, wildlife populations in Africa have declined by an average of 69%. Driven by poaching, habitat expansion, and climate change, the animals that once roamed freely are now facing the very real threat of extinction.</p>
+                <p>We believe in an Africa where wildlife and people thrive together. Our science-based, community-centered approach ensures conservation strategies work for both nature and the communities that share these landscapes.</p>
+                <div class="about-facts">
+                    <div class="fact-item">
+                        <strong>1,200+ Species</strong>
+                        <span>Of mammals, birds, and reptiles at risk</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>38 Countries</strong>
+                        <span>Where we operate across Africa</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>500+ Rangers</strong>
+                        <span>Supported in anti-poaching operations</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>2M Hectares</strong>
+                        <span>Of protected habitat managed</span>
                     </div>
                 </div>
-                <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="CodeFlow Platform Interface">
+            </div>
+            <div class="about-img">
+                <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=800&q=80" alt="African savanna landscape with wildlife">
+            </div>
+        </div>
+    </section>
+
+    <!-- Species Section -->
+    <section id="species" class="section-padding">
+        <h2>Priority Species We Must Protect</h2>
+        <p class="section-subtitle">These iconic species are the heartbeat of Africa's ecosystems. Their survival depends on urgent, coordinated action.</p>
+        <div class="grid-container">
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=800&q=80" alt="African Elephant" class="card-img">
+                    <span class="species-status status-endangered">Endangered</span>
+                </div>
+                <div class="card-content">
+                    <h3>African Elephant</h3>
+                    <div class="species-meta">
+                        <span>Loxodonta africana</span>
+                        <span>Population: ~416,000</span>
+                    </div>
+                    <p>The gentle giants of the savanna are vital ecosystem engineers, shaping landscapes for countless other species. Their populations have plummeted due to the ruthless ivory trade, with an estimated 20,000 elephants killed annually.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1575550959106-5a7defe28b56?auto=format&fit=crop&w=800&q=80" alt="Rhinoceros" class="card-img">
+                    <span class="species-status status-critically-endangered">Critically Endangered</span>
+                </div>
+                <div class="card-content">
+                    <h3>Rhinoceros</h3>
+                    <div class="species-meta">
+                        <span>Diceros bicornis</span>
+                        <span>Population: ~27,000</span>
+                    </div>
+                    <p>Both Black and White rhinos are heavily targeted by poachers for their horns, driven by baseless myths in traditional medicine markets. Three rhinos are killed every day in South Africa alone.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?auto=format&fit=crop&w=800&q=80" alt="Lion" class="card-img">
+                    <span class="species-status status-vulnerable">Vulnerable</span>
+                </div>
+                <div class="card-content">
+                    <h3>African Lion</h3>
+                    <div class="species-meta">
+                        <span>Panthera leo</span>
+                        <span>Population: ~23,000</span>
+                    </div>
+                    <p>The king of the beasts is losing its kingdom. Habitat fragmentation and human-wildlife conflict have reduced lion populations by 43% in just two decades. They now occupy only 8% of their historical range.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?auto=format&fit=crop&w=800&q=80" alt="Cheetah" class="card-img">
+                    <span class="species-status status-vulnerable">Vulnerable</span>
+                </div>
+                <div class="card-content">
+                    <h3>Cheetah</h3>
+                    <div class="species-meta">
+                        <span>Acinonyx jubatus</span>
+                        <span>Population: ~6,500</span>
+                    </div>
+                    <p>The fastest land animal is rapidly running out of space. Requiring vast expanses of land to hunt, cheetahs have lost 91% of their historic range. Only about 6,500 remain in the wild today.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=800&q=80" alt="African Wild Dog" class="card-img">
+                    <span class="species-status status-endangered">Endangered</span>
+                </div>
+                <div class="card-content">
+                    <h3>African Wild Dog</h3>
+                    <div class="species-meta">
+                        <span>Lycaon pictus</span>
+                        <span>Population: ~6,600</span>
+                    </div>
+                    <p>One of the world's most endangered mammals with fewer than 7,000 remaining. Disease, habitat loss, and accidental snaring continually threaten these highly social and intelligent pack hunters.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=800&q=80" alt="Mountain Gorilla" class="card-img">
+                    <span class="species-status status-endangered">Endangered</span>
+                </div>
+                <div class="card-content">
+                    <h3>Mountain Gorilla</h3>
+                    <div class="species-meta">
+                        <span>Gorilla beringei beringei</span>
+                        <span>Population: ~1,063</span>
+                    </div>
+                    <p>Confined to the misty mountains of Central Africa, mountain gorillas are a conservation success story in progress. Thanks to intensive protection efforts, their numbers have slowly risen from under 300 in the 1980s.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <div class="container">
-            <div class="section-title">
-                <h2>Powerful Features for Rapid Development</h2>
-                <p>CodeFlow provides all the tools you need to build, deploy, and scale applications without writing extensive code.</p>
+    <!-- Threats Section -->
+    <section id="threats" class="section-padding">
+        <h2>The Major Threats</h2>
+        <p class="section-subtitle" style="color:#999;">Understanding the forces driving wildlife decline is the first step toward reversing it.</p>
+        <div class="threats-grid">
+            <div class="threat-item">
+                <h3>&#9888;&#65039; Illegal Poaching</h3>
+                <p>The illegal wildlife trade is a multi-billion dollar criminal enterprise ranking among the top five global illicit activities. Animals are slaughtered relentlessly for their tusks, horns, skins, and bones to supply markets in Asia, Europe, and North America.</p>
             </div>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-th-large"></i>
-                    </div>
-                    <h3>Visual Builder</h3>
-                    <p>Drag and drop UI components to design responsive interfaces. Connect data sources with simple point-and-click actions.</p>
+            <div class="threat-item">
+                <h3>&#128668; Habitat Destruction</h3>
+                <p>As human populations grow, natural habitats are cleared for agriculture, infrastructure, and settlement. Africa loses approximately 4 million hectares of forest each year, fragmenting ecosystems and isolating wildlife populations.</p>
+            </div>
+            <div class="threat-item">
+                <h3>&#127757; Climate Change</h3>
+                <p>Shifting weather patterns cause severe droughts and floods, altering the availability of water and food sources. Africa is warming faster than the global average, devastating already vulnerable ecosystems and species.</p>
+            </div>
+            <div class="threat-item">
+                <h3>&#128062; Human-Wildlife Conflict</h3>
+                <p>As human settlements encroach into wildlife territories, conflict intensifies. Farmers lose crops to elephants, livestock to predators, leading to retaliatory killings. Finding peaceful coexistence strategies is critical for both communities and wildlife.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Help Section -->
+    <section id="help" class="section-padding">
+        <h2>What You Can Do</h2>
+        <p class="section-subtitle">Every action, no matter how small, contributes to the survival of Africa's most vulnerable species.</p>
+        <div class="help-steps">
+            <div class="step">
+                <div class="step-icon">&#128154;</div>
+                <h3>Donate & Support</h3>
+                <p>Contribute to verified conservation funds and anti-poaching units. Your donations equip rangers, fund wildlife sanctuaries, and support local community education programs.</p>
+                <br>
+                <a href="https://www.worldwildlife.org/donate" target="_blank" rel="noopener noreferrer" class="btn btn-small">Donate Now</a>
+            </div>
+            <div class="step">
+                <div class="step-icon">&#128225;</div>
+                <h3>Spread Awareness</h3>
+                <p>Use your voice. Share documentaries, articles, and campaigns on social media. Educating your friends and family is a powerful tool to shift global perspectives on conservation.</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">&#128683;</div>
+                <h3>Ethical Consumption</h3>
+                <p>Never purchase products made from wild animals. Avoid ivory, rhino horn, exotic skins, and bushmeat. Support sustainable and eco-friendly tourism that gives back to nature.</p>
+            </div>
+            <div class="step">
+                <div class="step-icon">&#129409;</div>
+                <h3>Adopt an Animal</h3>
+                <p>Symbolically adopt an endangered species through recognized organizations. Your adoption helps fund research, habitat protection, and anti-poaching patrols in key wildlife areas.</p>
+                <br>
+                <a href="https://gifts.worldwildlife.org/gift-center" target="_blank" rel="noopener noreferrer" class="btn btn-small">Adopt Now</a>
+            </div>
+            <div class="step">
+                <div class="step-icon">&#127758;</div>
+                <h3>Volunteer</h3>
+                <p>Join field projects across Africa as a conservation volunteer. From tracking wildlife to community outreach, your time and skills can make a direct, tangible impact on the ground.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Updates / News -->
+    <section id="news" class="section-padding">
+        <h2>Latest Updates</h2>
+        <p class="section-subtitle">Stay informed about the most recent developments in African wildlife conservation.</p>
+        <div class="news-grid">
+            <div class="news-card">
+                <img src="https://images.unsplash.com/photo-1518709594023-6eab9bab7b23?auto=format&fit=crop&w=800&q=80" alt="Rhino conservation patrol" class="news-card-img">
+                <div class="news-card-body">
+                    <div class="news-card-date">February 2026</div>
+                    <h3>Kenya Records First Rhino Population Increase in Two Decades</h3>
+                    <p>Intensive anti-poaching efforts and community engagement programs have yielded a historic milestone for black rhino recovery in Kenya's Lewa Conservancy.</p>
+                    <a href="https://www.awf.org" target="_blank" rel="noopener noreferrer" class="news-link">Read Full Story</a>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h3>Database Integration</h3>
-                    <p>Connect to any data source with built-in connectors. Automatically generate CRUD operations without writing SQL.</p>
+            </div>
+            <div class="news-card">
+                <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?auto=format&fit=crop&w=800&q=80" alt="Elephant tracking technology" class="news-card-img">
+                <div class="news-card-body">
+                    <div class="news-card-date">January 2026</div>
+                    <h3>AI-Powered Drones Transform Anti-Poaching Operations</h3>
+                    <p>A new generation of autonomous drones using artificial intelligence is helping rangers detect and intercept poachers in real time across national parks in Tanzania and Zambia.</p>
+                    <a href="https://www.savetheelephants.org" target="_blank" rel="noopener noreferrer" class="news-link">Read Full Story</a>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Cross-Platform</h3>
-                    <p>Build once, deploy everywhere. Generate applications for web, iOS, and Android from a single visual design.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3>Extensible with Code</h3>
-                    <p>Add custom functionality with JavaScript when needed. Our platform doesn't limit your creativity or complexity.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Enterprise Security</h3>
-                    <p>Built-in authentication, authorization, and data encryption. SOC2 compliant with enterprise-grade security features.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h3>One-Click Deployment</h3>
-                    <p>Deploy to cloud or on-premises with a single click. Automatic scaling and monitoring included.</p>
+            </div>
+            <div class="news-card">
+                <img src="https://images.unsplash.com/photo-1497486751825-1233686d5d80?auto=format&fit=crop&w=800&q=80" alt="Community conservation program" class="news-card-img">
+                <div class="news-card-body">
+                    <div class="news-card-date">December 2025</div>
+                    <h3>Community-Led Conservation Shows 40% Drop in Human-Wildlife Conflict</h3>
+                    <p>A groundbreaking program in Namibia empowering local farmers with bee-fence technology has dramatically reduced crop damage by elephants while creating new honey-based income streams.</p>
+                    <a href="https://www.panthera.org" target="_blank" rel="noopener noreferrer" class="news-link">Read Full Story</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Benefits Section -->
-    <section class="benefits" id="benefits">
-        <div class="container">
-            <div class="section-title">
-                <h2>Why Choose CodeFlow?</h2>
-                <p>Join thousands of companies accelerating their digital transformation with low-code development.</p>
-            </div>
-            
-            <div class="benefits-grid">
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>10x Faster Development</h3>
-                    <p>Build applications in days instead of months with visual development tools.</p>
-                </div>
-                
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="fas fa-money-bill-wave"></i>
-                    </div>
-                    <h3>Reduce Costs by 70%</h3>
-                    <p>Lower development and maintenance costs with fewer resources required.</p>
-                </div>
-                
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3>Citizen Developers</h3>
-                    <p>Enable business users to build solutions with minimal IT assistance.</p>
-                </div>
-                
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Scale Effortlessly</h3>
-                    <p>From prototype to enterprise-scale applications with the same platform.</p>
-                </div>
-            </div>
+    <!-- Testimonial / Quote -->
+    <section id="testimonial">
+        <div class="quote-mark">&ldquo;</div>
+        <p class="quote-text">In the end, we will conserve only what we love, we will love only what we understand, and we will understand only what we are taught.</p>
+        <div class="quote-author">
+            <strong>Baba Dioum</strong>
+            Senegalese Conservationist
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="testimonials" id="testimonials">
-        <div class="container">
-            <div class="section-title">
-                <h2>Trusted by Industry Leaders</h2>
-                <p>See what our customers have to say about their experience with CodeFlow.</p>
-            </div>
-            
-            <div class="testimonial-slider">
-                <div class="testimonial">
-                    <div class="testimonial-text">
-                        "CodeFlow transformed how we deliver solutions to our business units. What used to take 6 months now takes 3 weeks. Our development team can focus on complex problems while business teams build their own solutions."
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">SC</div>
-                        <div class="author-info">
-                            <h4>Sarah Chen</h4>
-                            <p>CTO, TechGrowth Inc.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section class="pricing" id="pricing">
-        <div class="container">
-            <div class="section-title">
-                <h2>Simple, Transparent Pricing</h2>
-                <p>Choose the plan that fits your needs. All plans include core features with no hidden fees.</p>
-            </div>
-            
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3 class="plan-name">Starter</h3>
-                    <div class="plan-price">$29<span>/month</span></div>
-                    <ul class="plan-features">
-                        <li>Up to 5 users</li>
-                        <li>10 GB storage</li>
-                        <li>Basic components</li>
-                        <li>Community support</li>
-                        <li>1 production app</li>
-                    </ul>
-                    <button class="secondary-button">Get Started</button>
-                </div>
-                
-                <div class="pricing-card featured">
-                    <div class="featured-badge">Most Popular</div>
-                    <h3 class="plan-name">Professional</h3>
-                    <div class="plan-price">$89<span>/month</span></div>
-                    <ul class="plan-features">
-                        <li>Up to 25 users</li>
-                        <li>100 GB storage</li>
-                        <li>All components</li>
-                        <li>Priority support</li>
-                        <li>10 production apps</li>
-                        <li>Custom branding</li>
-                    </ul>
-                    <button class="cta-button">Try Free for 14 Days</button>
-                </div>
-                
-                <div class="pricing-card">
-                    <h3 class="plan-name">Enterprise</h3>
-                    <div class="plan-price">Custom</div>
-                    <ul class="plan-features">
-                        <li>Unlimited users</li>
-                        <li>Unlimited storage</li>
-                        <li>All features included</li>
-                        <li>24/7 dedicated support</li>
-                        <li>Unlimited apps</li>
-                        <li>On-premises option</li>
-                    </ul>
-                    <button class="secondary-button">Contact Sales</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="container">
-            <h2>Start Building Today</h2>
-            <p>Join over 10,000 companies that use CodeFlow to accelerate their application development. No credit card required for the free trial.</p>
-            <button class="cta-button">Get Started for Free</button>
+    <!-- Partners Section -->
+    <section id="partners" class="section-padding">
+        <h2>Conservation Partners</h2>
+        <p class="section-subtitle">Together with these leading organizations, we are building a stronger front for Africa's wildlife.</p>
+        <div class="partners-grid">
+            <a href="https://www.worldwildlife.org" target="_blank" rel="noopener noreferrer" class="partner-card">
+                <div class="partner-icon">&#128060;</div>
+                <h3>World Wildlife Fund</h3>
+                <p>Global leader in wildlife conservation and endangered species protection since 1961.</p>
+            </a>
+            <a href="https://www.awf.org" target="_blank" rel="noopener noreferrer" class="partner-card">
+                <div class="partner-icon">&#127757;</div>
+                <h3>African Wildlife Foundation</h3>
+                <p>Ensuring wildlife and wild lands thrive in modern Africa through local leadership.</p>
+            </a>
+            <a href="https://www.savetheelephants.org" target="_blank" rel="noopener noreferrer" class="partner-card">
+                <div class="partner-icon">&#128024;</div>
+                <h3>Save the Elephants</h3>
+                <p>Securing a future for elephants and sustaining the beauty of their habitats.</p>
+            </a>
+            <a href="https://www.panthera.org" target="_blank" rel="noopener noreferrer" class="partner-card">
+                <div class="partner-icon">&#128042;</div>
+                <h3>Panthera</h3>
+                <p>Dedicated exclusively to the conservation of the world's 40 wild cat species.</p>
+            </a>
+            <a href="https://www.iucn.org" target="_blank" rel="noopener noreferrer" class="partner-card">
+                <div class="partner-icon">&#127807;</div>
+                <h3>IUCN</h3>
+                <p>International Union for Conservation of Nature &mdash; the global authority on the status of the natural world.</p>
+            </a>
+            <a href="https://www.wildnet.org" target="_blank" rel="noopener noreferrer" class="partner-card">
+                <div class="partner-icon">&#128058;</div>
+                <h3>Wildlife Conservation Network</h3>
+                <p>Funding and supporting 100+ wildlife conservationists across 40 countries.</p>
+            </a>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <div class="logo">
-                        <div class="logo-icon"><i class="fas fa-bezier-curve"></i></div>
-                        <div class="logo-text">Code<span>Flow</span></div>
-                    </div>
-                    <p style="margin-top: 20px; color: #aaa;">The leading visual development platform for building enterprise applications with minimal coding.</p>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>Product</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Features</a></li>
-                        <li><a href="#">Pricing</a></li>
-                        <li><a href="#">Use Cases</a></li>
-                        <li><a href="#">Integrations</a></li>
-                        <li><a href="#">Roadmap</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>Resources</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">Tutorials</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Community</a></li>
-                        <li><a href="#">Support</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>Company</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
+    <footer id="contact">
+        <div class="footer-grid">
+            <div class="footer-about">
+                <h3>AfricaWild</h3>
+                <p>We are a science-driven conservation organization dedicated to protecting Africa's most endangered species and their habitats. Through community engagement, anti-poaching operations, and cutting-edge research, we work to ensure a future where wildlife and people thrive together.</p>
+                <div class="footer-social" style="margin-top:1.5rem;">
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" title="Twitter">X</a>
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Facebook">FB</a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" title="Instagram">IG</a>
+                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" title="YouTube">YT</a>
                 </div>
             </div>
-            
-            <div class="copyright">
-                <p>&copy; 2023 CodeFlow. All rights reserved.</p>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#species">Species</a></li>
+                    <li><a href="#threats">Threats</a></li>
+                    <li><a href="#help">How to Help</a></li>
+                    <li><a href="#news">Latest Updates</a></li>
+                </ul>
             </div>
+            <div class="footer-col">
+                <h4>Our Programs</h4>
+                <ul>
+                    <li><a href="#species">Anti-Poaching</a></li>
+                    <li><a href="#species">Habitat Protection</a></li>
+                    <li><a href="#help">Community Outreach</a></li>
+                    <li><a href="#news">Research & Monitoring</a></li>
+                    <li><a href="#help">Wildlife Rescue</a></li>
+                    <li><a href="#about">Education Programs</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:info@africawild-conservation.org">info@africawild-conservation.org</a></li>
+                    <li><a href="tel:+18007283945">1-800-SAVE-WILD</a></li>
+                    <li>Nairobi, Kenya</li>
+                    <li style="margin-top:1rem; font-size:0.9rem; color:#aaa;">Subscribe to our newsletter for the latest conservation news and updates.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 African Wildlife Conservation. All rights reserved. Designed for a better planet.</p>
+            <p style="font-size:0.8rem;">Extinction is Forever. Conservation is Now.</p>
         </div>
     </footer>
 
     <script>
-        // Mobile menu toggle
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            const navLinks = document.querySelector('.nav-links');
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-            
-            // Adjust for mobile
-            if (window.innerWidth <= 768) {
-                if (navLinks.style.display === 'flex') {
-                    navLinks.style.flexDirection = 'column';
-                    navLinks.style.position = 'absolute';
-                    navLinks.style.top = '80px';
-                    navLinks.style.left = '0';
-                    navLinks.style.width = '100%';
-                    navLinks.style.backgroundColor = 'white';
-                    navLinks.style.padding = '20px';
-                    navLinks.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
-                    
-                    const navItems = document.querySelectorAll('.nav-links li');
-                    navItems.forEach(item => {
-                        item.style.margin = '10px 0';
-                    });
-                }
-            }
-        });
-        
-        // Smooth scrolling for anchor links
+        // Smooth scroll offset for fixed nav
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
+            anchor.addEventListener('click', function (e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    const offset = 80;
+                    const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({ top, behavior: 'smooth' });
                     // Close mobile menu if open
-                    if(window.innerWidth <= 768) {
-                        document.querySelector('.nav-links').style.display = 'none';
-                    }
+                    document.querySelector('.nav-links').classList.remove('active');
+                    document.querySelector('.hamburger').classList.remove('active');
                 }
-            });
-        });
-        
-        // Simple testimonial slider
-        const testimonials = [
-            {
-                text: "CodeFlow transformed how we deliver solutions to our business units. What used to take 6 months now takes 3 weeks. Our development team can focus on complex problems while business teams build their own solutions.",
-                name: "Sarah Chen",
-                position: "CTO, TechGrowth Inc.",
-                initials: "SC"
-            },
-            {
-                text: "We reduced our app development time by 80% using CodeFlow. The visual interface made it easy for our analysts to build data dashboards without waiting for IT resources.",
-                name: "Marcus Johnson",
-                position: "Director of Operations, DataCorp",
-                initials: "MJ"
-            },
-            {
-                text: "As a non-technical founder, CodeFlow allowed me to build our MVP in just 2 months. I could test ideas quickly and iterate based on user feedback without deep coding knowledge.",
-                name: "Lisa Wang",
-                position: "Founder, StartupLabs",
-                initials: "LW"
-            }
-        ];
-        
-        let currentTestimonial = 0;
-        const testimonialElement = document.querySelector('.testimonial');
-        
-        function rotateTestimonial() {
-            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-            updateTestimonial();
-        }
-        
-        function updateTestimonial() {
-            const testimonial = testimonials[currentTestimonial];
-            testimonialElement.innerHTML = `
-                <div class="testimonial-text">"${testimonial.text}"</div>
-                <div class="testimonial-author">
-                    <div class="author-avatar">${testimonial.initials}</div>
-                    <div class="author-info">
-                        <h4>${testimonial.name}</h4>
-                        <p>${testimonial.position}</p>
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Auto-rotate testimonials every 5 seconds
-        setInterval(rotateTestimonial, 5000);
-        
-        // CTA button interactions
-        document.querySelectorAll('.cta-button').forEach(button => {
-            button.addEventListener('click', function() {
-                alert('Thank you for your interest in CodeFlow! You would be redirected to the signup page in a real implementation.');
-            });
-        });
-        
-        // Pricing card interactions
-        document.querySelectorAll('.pricing-card button').forEach(button => {
-            button.addEventListener('click', function() {
-                const planName = this.closest('.pricing-card').querySelector('.plan-name').textContent;
-                alert(`You selected the ${planName} plan. In a real implementation, you would be redirected to the checkout process.`);
             });
         });
     </script>
+
 </body>
 </html>
